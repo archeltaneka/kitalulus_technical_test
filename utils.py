@@ -2,6 +2,23 @@ import pandas as pd
 from mlxtend.preprocessing import TransactionEncoder
 
 def preprocess_data(df):
+    """
+    Preprocess data with several steps:
+        1. remove unwanted columns
+        2. convert id columns to string
+        3. fill empty values
+        4. split category_code
+        5. create a list of item combinations
+
+    Arguments:
+        df: pd.DataFrame
+            input data
+
+    Returns:
+        items: list
+            list of item combinations
+    """
+    
     to_remove = ['event_time', 'event_type', 'user_session', 'price', 'brand']
     df = df.drop(columns=to_remove, axis=1)
 
@@ -19,6 +36,17 @@ def preprocess_data(df):
     return items
 
 def encode_items(preprocessed_data):
+    """
+    Fit a TransactionEncoder model
+
+    Arguments:
+        preprocessed_data: pd.DataFrame
+            preprocessed input data
+
+    Returns:
+        df: pd.DataFrame
+            fitted TransactionEncoder data
+    """
 
     te = TransactionEncoder()
     te_fit = te.fit(preprocessed_data).transform(preprocessed_data)
